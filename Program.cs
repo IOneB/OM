@@ -1,3 +1,6 @@
+using ConsoleApp12.Linq2Db;
+using LinqToDB.Data;
+using OM.Linq2Db.Models;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -9,35 +12,35 @@ namespace ConsoleApp12
     {
         static async Task Main(string[] args)
         {
+            OM.Linq2Db.Models.DataConnection.DefaultSettings = new MySettings();
+
             var classes = Assembly
                 .GetExecutingAssembly()
                 .GetTypes()
                 .Where(x => x.GetInterface(nameof(IUserRepository)) != null && !x.IsAbstract)
                 .Select(x => Activator.CreateInstance(x))
                 .OfType<IUserRepository>();
+            Console.WriteLine(string.Join(" ", (await new Linq2DbUserRepository().GetUsers()).Select(x => x.Name)));
 
-            foreach (var @class in classes)
-            {
-                Console.WriteLine(@class.GetType().Name);
-                await Debug(@class);
-                Console.WriteLine("\n\n\n\n");
-            }
+            //foreach (var @class in classes)
+            //{
+            //    Console.WriteLine(@class.GetType().Name);
+            //    await Debug(@class);
+            //    Console.WriteLine("\n\n\n\n");
+            //}
         }
 
         private static async Task WriteAboutAll(IUserRepository repos)
         {
             var users = await repos.GetUsers();
-            Console.WriteLine(users
-                .Select(x => $"{x.Name}:{x.Age}")
-                .Aggregate("", (x, y) => x + y + ", ")
-                .Trim(new[] { ',', ' ' }));
+            Console.WriteLine(string.Join(", ", users.Select(x => $"{x.Name}:{x.Age}")));
         }
 
         private static async Task Debug(IUserRepository repos)
         {
             await WriteAboutAll(repos);
 
-            var user = await repos.Create(new User
+            var user = await repos.Create(new UserDapper
             {
                 Age = new Random().Next(),
                 Name = Guid.NewGuid().ToString()

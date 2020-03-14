@@ -1,19 +1,16 @@
 using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ConsoleApp12
 {
-    [Table("Users")]
-    public class User
+    [Table("Groups")]
+    public class GroupDapper : IGroup
     {
         [Key]
         public int Id { get; set; }
-        public int Age { get; set; }
         public string Name { get; set; }
-
-
-        [Write(false)]
-        [Computed]
-        public List<Group> Groups { get; set; } = new List<Group>(10); 
+        public int UserId { get; set; }
     }
 }

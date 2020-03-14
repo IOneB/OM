@@ -10,34 +10,39 @@ namespace ConsoleApp12.Dapper
     /// </summary>
     class DapperPlusUserRepository : IUserRepository
     {
-        public Task<User> Create(User user)
+        public Task<IUser> Create(IUser user)
         {
-            throw new NotImplementedException();
+            return default;
         }
 
         public Task Delete(int id)
         {
-            throw new NotImplementedException();
+            return default;
+
         }
 
-        public Task<User> Get(int id)
+        public Task<IUser> Get(int id)
         {
-            throw new NotImplementedException();
+            return default;
+
         }
 
-        public Task<List<User>> GetJoined()
+        public Task<List<IUser>> GetJoined()
         {
-            throw new NotImplementedException();
+            return default;
+
         }
 
-        public Task<IEnumerable<User>> GetUsers()
+        public Task<IEnumerable<IUser>> GetUsers()
         {
-            throw new NotImplementedException();
+            return default;
+
         }
 
-        public Task Update(User user)
+        public Task Update(IUser user)
         {
-            throw new NotImplementedException();
+            return default;
+
         }
     }
 }

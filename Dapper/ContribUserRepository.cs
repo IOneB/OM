@@ -11,9 +11,9 @@ namespace ConsoleApp12
 {
     public class ContribUserRepository : IUserRepository
     {
-        public async Task<User> Create(User user)
+        public async Task<IUser> Create(IUser user)
         {
-            using var context = new SqlConnection(Config._connectionString);
+            using var context = new SqlConnection(Config.connectionString);
             await context.OpenAsync();
 
             var identity = await context.InsertAsync(user);
@@ -24,47 +24,47 @@ namespace ConsoleApp12
 
         public async Task Delete(int id)
         {
-            using var context = new SqlConnection(Config._connectionString);
+            using var context = new SqlConnection(Config.connectionString);
             await context.OpenAsync();
 
-            await context.DeleteAsync(new User { Id = id });
+            await context.DeleteAsync(new UserDapper { Id = id });
         }
 
-        public async Task<User> Get(int id)
+        public async Task<IUser> Get(int id)
         {
-            using var context = new SqlConnection(Config._connectionString);
+            using var context = new SqlConnection(Config.connectionString);
             await context.OpenAsync();
 
-            return await context.GetAsync<User>(id);
+            return await context.GetAsync<UserDapper>(id);
         }
 
-        public async Task<List<User>> GetJoined()
+        public async Task<List<IUser>> GetJoined()
         {
-            using var context = new SqlConnection(Config._connectionString);
+            using var context = new SqlConnection(Config.connectionString);
 
-            var users = await context.GetAllAsync<User>();
+            var users = await context.GetAllAsync<UserDapper>();
 
             var ids = users.Select(x => x.Id);
-            var groups = await context.QueryAsync<Group>("Select * from groups where UserId in @Ids", new { Ids = ids.ToArray() });
+            var groups = await context.QueryAsync<GroupDapper>("Select * from groups where UserId in @Ids", new { Ids = ids.ToArray() });
 
             return users.Select(x =>
             {
-                x.Groups = groups.Where(g => g.UserId == x.Id).ToList();
-                return x;
+                x.Groups = groups.Where(g => g.UserId == x.Id).Cast<IGroup>().ToList();
+                return (IUser)x;
             }).ToList();
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<IEnumerable<IUser>> GetUsers()
         {
-            using var context = new SqlConnection(Config._connectionString);
+            using var context = new SqlConnection(Config.connectionString);
             await context.OpenAsync();
 
-            return await context.GetAllAsync<User>();
+            return await context.GetAllAsync<UserDapper>();
         }
 
-        public async Task Update(User user)
+        public async Task Update(IUser user)
         {
-            using var context = new SqlConnection(Config._connectionString);
+            using var context = new SqlConnection(Config.connectionString);
             await context.OpenAsync();
 
             await context.UpdateAsync(user);

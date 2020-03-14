@@ -4,7 +4,7 @@ namespace ConsoleApp12
 {
     public struct Config
     {
-        public const string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Dapper;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public const string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Dapper;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public void CreateTables()
         {

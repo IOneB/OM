@@ -1,41 +1,68 @@
+using OM.Linq2Db.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB;
+using System.Linq;
+using LinqToDB.Common;
 
 namespace ConsoleApp12.Linq2Db
 {
     //https://github.com/linq2db/linq2db
     class Linq2DbUserRepository : IUserRepository
     {
-        public Task<User> Create(User user)
+        public Linq2DbUserRepository()
         {
-            throw new NotImplementedException();
+
+        }
+
+        public Task<IUser> Create(IUser user)
+        {
+
+
+
+            return default;
         }
 
         public Task Delete(int id)
         {
-            throw new NotImplementedException();
+
+
+
+            return default;
         }
 
-        public Task<User> Get(int id)
+        public Task<IUser> Get(int id)
         {
-            throw new NotImplementedException();
+
+
+
+            return default;
         }
 
-        public Task<List<User>> GetJoined()
+        public Task<List<IUser>> GetJoined()
         {
-            throw new NotImplementedException();
+
+
+
+            return default;
         }
 
-        public Task<IEnumerable<User>> GetUsers()
+        public async Task<IEnumerable<IUser>> GetUsers()
         {
-            throw new NotImplementedException();
+            using var db = new DataConnection();
+            var query = from u in db.Users
+                        select u;
+            return query.ToList();
         }
 
-        public Task Update(User user)
+        public Task Update(IUser user)
         {
-            throw new NotImplementedException();
+
+
+
+            return default;
         }
     }
 }
